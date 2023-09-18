@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mytodo_app/models/todo_model.dart';
 import 'package:mytodo_app/provider/todo_provider.dart';
-
+import 'package:provider/provider.dart';
 
 class MyTodoApp extends StatefulWidget {
   const MyTodoApp({super.key});
@@ -14,8 +15,8 @@ class _MyWidgetState extends State<MyTodoApp> {
   @override
   void initState() {
     super.initState();
-    
-    // final TodoProvider = Provider.of<TodoProvider=>(context, listen: true);
+
+    provider = Provider.of<TodoProvider>(context, listen: false);
   }
 
   @override
@@ -28,12 +29,23 @@ class _MyWidgetState extends State<MyTodoApp> {
             builder: (context) {
               return Column(
                 children: [
-                  const TextField(
-                    decoration: InputDecoration(),
+                  Selector<TodoProvider, List<TodoModel>>(
+                    selector: (p0, p1) => p1.todolists,
+                    builder: (context, text, child) {
+                      return const ListTile(
+                        title: TextField(),
+                        
+                      );
+                      
+                    },
+                    // child: const TextField(
+                    //   decoration: InputDecoration(),
+                    // ),
                   ),
                   ElevatedButton(
                     onPressed: () {},
                     child: const Text('Add'),
+                    
                   )
                 ],
               );
@@ -46,7 +58,13 @@ class _MyWidgetState extends State<MyTodoApp> {
         ),
       ),
       appBar: AppBar(
-        title: const Text('My todo app'),
+        toolbarHeight: 70,
+        title: const Padding(
+          padding: EdgeInsets.only(bottom: 22),
+          child: Text(
+            'My todo app',
+          ),
+        ),
       ),
       body: const Column(
         children: [
@@ -57,8 +75,14 @@ class _MyWidgetState extends State<MyTodoApp> {
               children: [
                 TabBar(
                   tabs: [
-                    Text('Due Task'),
-                    Text('completed'),
+                    Text(
+                      'Due Task',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    Text(
+                      'completed',
+                      style: TextStyle(fontSize: 18),
+                    ),
                   ],
                 ),
                 Padding(
@@ -81,5 +105,3 @@ class _MyWidgetState extends State<MyTodoApp> {
     );
   }
 }
-
-
