@@ -21,6 +21,7 @@ class Mytodo extends StatelessWidget {
       child: MaterialApp(
         theme: ThemeData(
             appBarTheme: const AppBarTheme(color: Colors.blue),
+            
             useMaterial3: true),
         home: const MyTodoApp(),
       ),
