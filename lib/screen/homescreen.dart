@@ -26,7 +26,6 @@ class _MyWidgetState extends State<MyTodoApp> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: const Color.fromRGBO(0, 0, 0, 0.90),
         appBar: AppBar(
           backgroundColor: const Color.fromRGBO(97, 94, 255, 1),
           // toolbarHeight: 70,
@@ -82,37 +81,72 @@ class _DuetaskScreenState extends State<DuetaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromRGBO(0, 0, 0, 0.90),
       floatingActionButton: FloatingActionButton(
+        shape: const CircleBorder(),
         onPressed: () {
           showModalBottomSheet(
+            backgroundColor: const Color.fromRGBO(24, 24, 24, 1),
             context: context,
             builder: (context) {
               return Column(
                 children: [
+                  const Text(
+                    'Enter Your Task',
+                    style: TextStyle(
+                      color: Color.fromRGBO(116, 116, 116, 1),
+                    ),
+                  ),
                   Selector<TodoProvider, List<TodoModel>>(
                     selector: (p0, p1) => p1.todoTaskList,
                     builder: (context, text, child) {
                       return ListTile(
                         title: TextField(
                           controller: textController,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(),
+                            ),
+                          ),
                         ),
                       );
                     },
                   ),
                   ElevatedButton(
+                    // style: ButtonStyle(backgroundColor: ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Color.fromRGBO(40, 70, 145, 1),
+                    ),
                     onPressed: () {
-                      provider.addTask(textController.text);
+                      provider.addTask(TodoModel(text: textController.text));
                     },
-                    child: const Text('Add'),
+                    child: const Text(
+                      'Add',
+                      style: TextStyle(fontSize: 18),
+                    ),
                   )
                 ],
               );
             },
           );
         },
-        child: const Icon(
-          Icons.add_circle_outline,
-          color: Colors.blue,
+        child: Container(
+          height: 57,
+          width: 57,
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color.fromRGBO(93, 158, 200, 1),
+                  Color.fromRGBO(97, 93, 240, 1),
+                  // Color.fromRGBO(145, 142, 255, 1),
+                  Color.fromRGBO(97, 93, 240, 1),
+                  // Color.fromRGBO(255, 255, 255, 1),
+                  // Color.fromRGBO(255, 255, 255, 0),
+                ],
+              ),
+              shape: BoxShape.circle),
+          child: const Icon(Icons.add_circle_outline_rounded,
+              color: Color.fromRGBO(41, 179, 253, 1)),
         ),
       ),
       body: Selector<TodoProvider, List<TodoModel>>(
@@ -122,6 +156,7 @@ class _DuetaskScreenState extends State<DuetaskScreen> {
           itemBuilder: (context, index) => Padding(
             padding: const EdgeInsets.all(16.0),
             child: ListTile(
+              onTap: () {},
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
@@ -132,11 +167,17 @@ class _DuetaskScreenState extends State<DuetaskScreen> {
                 provider.todoTaskList[index].text,
                 style: const TextStyle(color: Colors.white),
               ),
-              trailing: Icon(
-                provider.todoTaskList[index].isDone
-                    ? Icons.check_box_outlined
-                    : Icons.check_box_outline_blank_rounded,
-                color: Colors.white,
+              trailing: IconButton(
+                onPressed: () {
+                  provider.addToggle(TodoModel(text: ''));
+                  setState(() {});
+                },
+                icon: Icon(
+                  provider.todoTaskList[index].isDone
+                      ? Icons.check_box_outline_blank_rounded
+                      : Icons.check_box_outlined,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),

@@ -3,5 +3,9 @@ class TodoModel {
   bool isDone;
 //  final String
 
-  TodoModel({required this.text,this.isDone=false });
+  TodoModel({required this.text, this.isDone = false});
+
+  void complete() {
+    isDone = !isDone;
+  }
 }
