@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:mytodo_app/models/todo_model.dart';
 import 'package:mytodo_app/provider/todo_provider.dart';
@@ -36,42 +35,56 @@ class _DuetaskScreenState extends State<DuetaskScreen> {
             builder: (context) {
               return Column(
                 children: [
-                  const Text(
-                    'Enter Your Task',
-                    style: TextStyle(
-                      color: Color.fromRGBO(116, 116, 116, 1),
+                  const Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: Text(
+                      'Enter Your Task',
+                      style: TextStyle(
+                          color: Color.fromRGBO(116, 116, 116, 1),
+                          fontSize: 19),
                     ),
                   ),
                   Selector<TodoProvider, List<TodoModel>>(
                     selector: (p0, p1) => p1.todoTaskList,
                     builder: (context, text, child) {
-                      return TextField(
-                        style: const TextStyle(color: Colors.grey),
-                        controller: textController,
-                        decoration: const InputDecoration(
-                          constraints: BoxConstraints(maxHeight: 60),
-                          fillColor: Colors.blue,
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(),
+                      return Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: TextField(
+                          style: const TextStyle(
+                            color: Colors.grey,
                           ),
+                          controller: textController,
+                          decoration: const InputDecoration(
+                            constraints: BoxConstraints(maxHeight: 59),
+                            fillColor: Colors.blue,
+                            border: OutlineInputBorder(
+                                // borderSide: BorderSide(),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12))),
+                          ),
+                          // ),
                         ),
-                        // ),
                       );
                     },
                   ),
                   ElevatedButton(
-                    // style: ButtonStyle(backgroundColor: ),
                     style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            const Color.fromARGB(133, 44, 42, 182)),
+                      backgroundColor: const Color.fromARGB(133, 44, 42, 182),
+                    ),
                     onPressed: () {
                       provider.addTask(TodoModel(text: textController.text));
                       textController.clear();
                       Navigator.pop(context);
                     },
-                    child: const Text(
-                      'Add',
-                      style: TextStyle(fontSize: 18),
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Add',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        Icon(Icons.add_circle_outline_outlined)
+                      ],
                     ),
                   )
                 ],

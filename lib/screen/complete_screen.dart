@@ -50,20 +50,48 @@ class _CompleteScreenState extends State<CompleteScreen> {
             )
           : Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 155),
                   child: FloatingActionButton(
                     shape: const CircleBorder(),
-                    backgroundColor: const Color.fromARGB(255, 8, 109, 191),
+                    // backgroundColor: const Color.fromARGB(255, 8, 109, 191),
                     onPressed: () {},
-                    child: const Icon(Icons.add_circle_outline_rounded),
+                    child: Container(
+                      width: 57,
+                      height: 57,
+                      decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromRGBO(93, 158, 200, 1),
+                              Color.fromRGBO(97, 93, 240, 1),
+                              // Color.fromRGBO(145, 142, 255, 1),
+                              Color.fromRGBO(97, 93, 240, 1),
+                              // Color.fromRGBO(255, 255, 255, 1),
+                              // Color.fromRGBO(255, 255, 255, 0),
+                            ],
+                          ),
+                          shape: BoxShape.circle),
+                      child: const Icon(Icons.add_circle_outline_rounded,
+                          color: Color.fromRGBO(41, 179, 253, 1)),
+                    ),
                   ),
                 ),
-                // const Text(
-                //   'Click to Add',
-                //   style: TextStyle(color: Colors.grey, fontSize: 18),
-                // )
+                const SizedBox(
+                  height: 10,
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(
+                    right: 140,
+                    top: 10,
+                    left: 0,
+                  ),
+                  child: Text(
+                    'Click to Add',
+                    style: TextStyle(color: Colors.grey, fontSize: 20),
+                  ),
+                )
               ],
             ),
       body: Selector<TodoProvider, List<TodoModel>>(
