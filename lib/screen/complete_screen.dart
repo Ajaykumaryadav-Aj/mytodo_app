@@ -20,7 +20,7 @@ class _CompleteScreenState extends State<CompleteScreen> {
       floatingActionButton: provider.completeTask.isNotEmpty
           ? FloatingActionButton(
               onPressed: () {
-                provider.todoTaskList.clear();
+                provider.removeCompletedTasks();
                 setState(() {});
               },
               shape: const CircleBorder(),
@@ -95,9 +95,9 @@ class _CompleteScreenState extends State<CompleteScreen> {
               ],
             ),
       body: Selector<TodoProvider, List<TodoModel>>(
-        selector: (p0, p1) => p1.todoTaskList,
+        selector: (p0, p1) => p1.completeTask,
         builder: (context, value, child) => ListView.builder(
-          itemCount: provider.completeTask.length,
+          itemCount: value.length,
           itemBuilder: (context, index) => Padding(
               padding: const EdgeInsets.all(16.0),
               child: provider.completeTask[index].isDone

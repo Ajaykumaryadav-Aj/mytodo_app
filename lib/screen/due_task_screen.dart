@@ -45,7 +45,7 @@ class _DuetaskScreenState extends State<DuetaskScreen> {
                     ),
                   ),
                   Selector<TodoProvider, List<TodoModel>>(
-                    selector: (p0, p1) => p1.todoTaskList,
+                    selector: (p0, p1) => p1.dueTask,
                     builder: (context, text, child) {
                       return Padding(
                         padding: const EdgeInsets.all(20.0),
@@ -58,34 +58,30 @@ class _DuetaskScreenState extends State<DuetaskScreen> {
                             constraints: BoxConstraints(maxHeight: 59),
                             fillColor: Colors.blue,
                             border: OutlineInputBorder(
-                                // borderSide: BorderSide(),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12))),
+                              // borderSide: BorderSide(),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                            ),
                           ),
-                          // ),
                         ),
                       );
                     },
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(133, 44, 42, 182),
-                    ),
+                  FloatingActionButton.extended(
+                    // style: ElevatedButton.styleFrom(
+                    //   backgroundColor: const Color.fromARGB(133, 44, 42, 182),
+                    // ),
                     onPressed: () {
                       provider.addTask(TodoModel(text: textController.text));
                       textController.clear();
                       Navigator.pop(context);
                     },
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Add',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        Icon(Icons.add_circle_outline_outlined)
-                      ],
+                    label: const Text(
+                      'Add',
+                      style: TextStyle(fontSize: 20),
                     ),
+                    // icon: const Icon(Icons.add_circle_outline_rounded),
                   )
                 ],
               );
@@ -111,45 +107,69 @@ class _DuetaskScreenState extends State<DuetaskScreen> {
               color: Color.fromRGBO(41, 179, 253, 1)),
         ),
       ),
-      body: Selector<TodoProvider, List<TodoModel>>(
-        selector: (p0, p1) => p1.todoTaskList,
-        builder: (context, value, child) => ListView.builder(
-          itemCount: value.length,
-          itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.only(
-              top: 16,
-              left: 16,
-              right: 16,
-            ),
-            child: ListTile(
-              onTap: () {},
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
-              ),
-              tileColor: const Color.fromRGBO(97, 94, 255, 1),
-              title: Text(
-                value[index].text,
-                style: const TextStyle(color: Colors.white),
-              ),
-              trailing: IconButton(
-                onPressed: () {
-                  provider.toggle(
-                    TodoModel(text: ''),
-                  );
-                  // setState(() {});
-                },
-                icon: Icon(
-                  value[index].isDone
-                      ? Icons.check_box_outlined
-                      : Icons.check_box_outline_blank,
-                  color: Colors.white,
-                ),
-              ),
-            ),
+      body: Column(
+        children: [
+          Selector<TodoProvider, List<TodoModel>>(
+            selector: (p0, p1) => p1.dueTask,
+            builder: (context, value, child) => value.isEmpty
+                ? const Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 150, vertical: 260),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.add_box_outlined,
+                          color: Colors.grey,
+                          size: 100,
+                        ),
+                        Text(
+                          'No task left',
+                          style: TextStyle(color: Colors.grey, fontSize: 19),
+                        )
+                      ],
+                    ),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: provider.dueTask.length,
+                    itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.only(
+                        top: 16,
+                        left: 16,
+                        right: 16,
+                      ),
+                      child: ListTile(
+                        onTap: () {},
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        tileColor: const Color.fromRGBO(97, 94, 255, 1),
+                        title: Text(
+                          provider.dueTask[index].text,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        trailing: IconButton(
+                          onPressed: () {
+                            provider
+                                .toggle(TodoModel(text: textController.text));
+                            // provider.toggle(TodoModel(
+                            //     text: textController.text, isDone: true));
+                            setState(() {});
+                          },
+                          icon: Icon(
+                            provider.dueTask[index].isDone
+                                ? Icons.check_box_outlined
+                                : Icons.check_box_outline_blank,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
           ),
-        ),
+        ],
       ),
     );
   }
