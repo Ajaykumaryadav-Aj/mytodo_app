@@ -17,14 +17,11 @@ class TodoProvider with ChangeNotifier {
     _todoTaskList.add(value);
     notifyListeners();
   }
-void toggle( value) {
-  // final index = _todoTaskList.indexOf(value);
-  // if (index != -1)
-  //  {
+void toggle(TodoModel value) {
+  
     _todoTaskList[_todoTaskList.indexOf(value)].complete();
-    _todoTaskList.removeAt(value);
     notifyListeners();
-  // }
+  
 }
 
    void removeCompletedTasks() {

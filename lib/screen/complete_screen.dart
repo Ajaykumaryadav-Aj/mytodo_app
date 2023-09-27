@@ -116,8 +116,9 @@ class _CompleteScreenState extends State<CompleteScreen> {
                       trailing: IconButton(
                         onPressed: () {
                           provider.toggle(
-                            TodoModel(text: ''),
+                            value[index],
                           );
+                          // provider.removeCompletedTasks();
                           setState(() {});
                         },
                         icon: Icon(

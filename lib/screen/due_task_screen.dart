@@ -69,19 +69,29 @@ class _DuetaskScreenState extends State<DuetaskScreen> {
                     },
                   ),
                   FloatingActionButton.extended(
-                    // style: ElevatedButton.styleFrom(
-                    //   backgroundColor: const Color.fromARGB(133, 44, 42, 182),
-                    // ),
+                    shape: const ContinuousRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(50),
+                      ),
+                    ),
+                    backgroundColor: const Color.fromARGB(255, 51, 51, 87),
                     onPressed: () {
                       provider.addTask(TodoModel(text: textController.text));
                       textController.clear();
                       Navigator.pop(context);
                     },
-                    label: const Text(
-                      'Add',
-                      style: TextStyle(fontSize: 20),
+                    label: const Row(
+                      children: [
+                        Text(
+                          'Add',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                        Icon(
+                          Icons.add_circle_outline_rounded,
+                          color: Color.fromARGB(255, 106, 52, 243),
+                        ),
+                      ],
                     ),
-                    // icon: const Icon(Icons.add_circle_outline_rounded),
                   )
                 ],
               );
@@ -152,10 +162,8 @@ class _DuetaskScreenState extends State<DuetaskScreen> {
                         ),
                         trailing: IconButton(
                           onPressed: () {
-                            provider
-                                .toggle(TodoModel(text: textController.text));
-                            // provider.toggle(TodoModel(
-                            //     text: textController.text, isDone: true));
+                            provider.toggle(value[index]);
+
                             setState(() {});
                           },
                           icon: Icon(
